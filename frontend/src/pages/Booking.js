@@ -2,25 +2,31 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function Booking() {
+  // Read backend URL from frontend/.env
+  const API_URL = process.env.REACT_APP_API_URL;
+
   const [form, setForm] = useState({
     name: "",
     email: "",
     issue: "",
     date: "",
-    time: ""
+    time: "",
   });
 
   const handleChange = (e) => {
     setForm({
       ...form,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleBooking = async () => {
     try {
+      // Optional: check in browser console (F12 -> Console)
+      console.log("API URL:", API_URL);
+
       const res = await axios.post(
-        "http://localhost:5000/api/book",
+        `${API_URL}/api/book`,
         form
       );
 
@@ -31,8 +37,11 @@ export default function Booking() {
 
       window.location.href = "/dashboard";
     } catch (error) {
+      console.error("Booking Error:", error);
+
       alert(
         error.response?.data?.message ||
+          error.message ||
           "Failed to create booking."
       );
     }
