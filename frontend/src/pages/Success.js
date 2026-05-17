@@ -1,5 +1,3 @@
-// frontend/src/pages/Success.js
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -8,20 +6,21 @@ export default function Success() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  // ✅ Correct API URL
+  const API_URL = process.env.REACT_APP_API_URL;
+
   useEffect(() => {
     const createMeeting = async () => {
       try {
-        // Call backend to create Google Meet link
         const res = await axios.post(
-          "http://localhost:5000/api/book",
+          `${API_URL}/api/book`,
           {
             name: "Paid Client",
             email: "client@example.com",
-            issue: "Consultation"
+            issue: "Consultation",
           }
         );
 
-        // Expect backend to return a meetLink field
         const link =
           res.data.booking?.meetLink ||
           res.data.meetLink ||
@@ -30,9 +29,11 @@ export default function Success() {
         setMeetingLink(link);
       } catch (err) {
         console.error(err);
+
         setError(
           err.response?.data?.message ||
-            "Unable to create meeting. Please check Google Calendar configuration."
+            err.message ||
+            "Unable to create meeting. Please check backend."
         );
       } finally {
         setLoading(false);
@@ -53,10 +54,8 @@ export default function Success() {
 
   if (error) {
     return (
-      <div className="p-10 text-center">
-        <h2 className="text-2xl font-bold text-red-600">
-          Meeting Creation Failed
-        </h2>
+      <div className="p-10 text-center text-red-600">
+        <h2 className="text-2xl font-bold">Meeting Creation Failed</h2>
         <p className="mt-4">{error}</p>
       </div>
     );
