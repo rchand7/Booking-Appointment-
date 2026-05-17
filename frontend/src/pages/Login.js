@@ -5,13 +5,16 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // ✅ Correct API URL usage
+  const API_URL = process.env.REACT_APP_API_URL;
+
   const handleLogin = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        `${API_URL}/api/auth/login`,
         {
           email,
-          password
+          password,
         }
       );
 
