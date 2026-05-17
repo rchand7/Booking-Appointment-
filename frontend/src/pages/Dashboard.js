@@ -4,9 +4,11 @@ import axios from "axios";
 export default function Dashboard() {
   const [bookings, setBookings] = useState([]);
 
+  const API_URL = process.env.REACT_APP_API_URL;
+
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/book")
+      .get(`${API_URL}/api/book`)
       .then((res) => setBookings(res.data))
       .catch((err) => console.error(err));
   }, []);
