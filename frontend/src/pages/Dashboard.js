@@ -18,7 +18,7 @@ export default function Dashboard() {
       <h1 className="text-3xl font-bold mb-6">My Bookings</h1>
 
       {bookings.length === 0 ? (
-        <p>No bookings yet.</p>
+        <p> Booking Confirmed.</p>
       ) : (
         bookings.map((b) => (
           <div key={b._id} className="border p-4 my-3 rounded shadow-sm">
